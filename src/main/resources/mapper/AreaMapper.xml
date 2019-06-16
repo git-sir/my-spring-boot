@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kailin.demo.dao.AreaDao">
+
+	<!-- ============================= INSERT ============================= -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="areaId" >
+        INSERT INTO area( area_id,area_name,priority,create_time,last_edit_time )
+        VALUES ( #{areaId},#{areaName},#{priority},#{createTime},#{lastEditTime})
+    </insert>
+
+
+	<!-- batch insert for mysql -->
+	<insert id="saveBatch">
+		INSERT INTO area( area_id,area_name,priority,create_time,last_edit_time )
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			( #{item.areaId},#{item.areaName},#{item.priority},#{item.createTime},#{item.lastEditTime} )
+		</foreach>
+	</insert>
+
+
+	<!-- batch insert for oracle -->
+	<!--
+    <insert id="saveBatch">
+        INSERT INTO area( area_id,area_name,priority,create_time,last_edit_time )
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            SELECT #{item.areaId},#{item.areaName},#{item.priority},#{item.createTime},#{item.lastEditTime}
+              FROM DUAL
+        </foreach>
+    </insert>
+
+    -->
+
+	<!-- ============================= UPDATE ============================= -->
+	<update id="update">
+		UPDATE area
+		<set>
+			area_name=#{areaName},
+			priority=#{priority},
+			create_time=#{createTime},
+			last_edit_time=#{lastEditTime},
+		</set>
+		WHERE area_id=#{areaId}
+	</update>
+
+	<update id="updateIgnoreNull">
+		UPDATE area
+		<set>
+			<if test="areaName!= null">area_name=#{areaName},</if>
+			<if test="priority!= null">priority=#{priority},</if>
+			<if test="createTime!= null">create_time=#{createTime},</if>
+			<if test="lastEditTime!= null">last_edit_time=#{lastEditTime},</if>
+		</set>
+		WHERE area_id=#{areaId}
+	</update>
+
+	<update id="updateBatch" parameterType="java.util.List">
+		UPDATE area
+		<set>
+			<foreach collection="list" item="item" index="index" open="area_name= CASE area_id" close="END" separator=" " >
+				WHEN #{item.areaId} THEN #{item.areaName}
+			</foreach>,
+			<foreach collection="list" item="item" index="index" open="priority= CASE area_id" close="END" separator=" " >
+				WHEN #{item.areaId} THEN #{item.priority}
+			</foreach>,
+			<foreach collection="list" item="item" index="index" open="create_time= CASE area_id" close="END" separator=" " >
+				WHEN #{item.areaId} THEN #{item.createTime}
+			</foreach>,
+			<foreach collection="list" item="item" index="index" open="last_edit_time= CASE area_id" close="END" separator=" " >
+				WHEN #{item.areaId} THEN #{item.lastEditTime}
+			</foreach>,
+		</set>
+		WHERE
+		<foreach collection="list" separator="or" item="item" index="index">
+			area_id=#{item.areaId}
+		</foreach>
+	</update>
+
+
+	<!-- ============================= DELETE ============================= -->
+	<delete id="delete">
+        DELETE FROM area
+        WHERE area_id=#{areaId}
+    </delete>
+
+	<delete id="deleteBatch">
+		DELETE FROM area
+		WHERE
+		<foreach collection="list" item="item" index="index" open="(" separator="OR" close=")">
+			area_id=#{item.areaId}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByPK">
+        DELETE FROM area
+        WHERE area_id=#{areaId}
+    </delete>
+
+	<delete id="deleteAll">
+        DELETE FROM area
+    </delete>
+
+
+	<!-- ============================= SELECT ============================= -->
+	<select id="count" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM area
+    </select>
+
+	<select id="findByPK" resultType="com.kailin.demo.entity.Area">
+        SELECT * FROM area
+        WHERE area_id=#{areaId}
+    </select>
+
+	<select id="find" resultType="com.kailin.demo.entity.Area">
+		SELECT area_id,area_name,priority,create_time,last_edit_time
+		FROM area
+		<where>
+			<if test="areaId!= null">
+				AND area_id = #{areaId}
+			</if>
+			<if test="areaName!= null">
+				AND area_name = #{areaName}
+			</if>
+			<if test="priority!= null">
+				AND priority = #{priority}
+			</if>
+			<if test="createTime!= null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="lastEditTime!= null">
+				AND last_edit_time = #{lastEditTime}
+			</if>
+		</where>
+	</select>
+
+</mapper>
