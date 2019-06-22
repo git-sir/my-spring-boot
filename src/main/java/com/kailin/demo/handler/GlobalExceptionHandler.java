@@ -31,9 +31,10 @@ public class GlobalExceptionHandler {
     public Result handleBindException(HttpServletRequest request, BindException e) {
         log.info("访问链接{}出现异常,异常信息如下：{}",request.getRequestURI(),e);
         FieldError fieldError = e.getBindingResult().getFieldError();
-        log.info("属性上的@NotBlank注解里的值：{}",fieldError.getDefaultMessage());
+//        log.info("参数上的hibernate-validator注解上的括号里的值：{}",fieldError.getDefaultMessage());
         String field = fieldError.getField();
-        String errorMsg = fieldError.getDefaultMessage();
-        return ResultGenerator.genFailResult(ResultCode.CHECK_ERROR,"数据校验异常：属性"+field+","+errorMsg);
+        String errorMsg = "数据校验异常：属性"+field+"," + fieldError.getDefaultMessage();
+        log.info(errorMsg);
+        return ResultGenerator.genFailResult(ResultCode.CHECK_ERROR,errorMsg);
     }
 }

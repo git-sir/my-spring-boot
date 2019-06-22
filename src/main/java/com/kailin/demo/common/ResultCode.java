@@ -8,7 +8,7 @@ public enum ResultCode {
     FAIL(400),//失败
     UNAUTHORIZED(401),//未认证（签名错误）
     NOT_FOUND(404),//接口不存在
-    CHECK_ERROR(999),  //参数校验失败
+    CHECK_ERROR(405),  //参数校验失败
     INTERNAL_SERVER_ERROR(500);//服务器内部错误
 
 

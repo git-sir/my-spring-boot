@@ -19,8 +19,17 @@ public class AreaService {
         return areaList;
     }
 
+    public Area getById(Long areaId) {
+        return areaDao.findByPK(areaId);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public int saveArea(Area area) {
         return areaDao.save(area);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int deleteById(Long areaId) {
+        return areaDao.deleteByPK(areaId);
     }
 }
