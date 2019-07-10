@@ -13,10 +13,9 @@ import java.util.Map;
 public class TestController {
 
     @GetMapping("queryData")
-    public Map<String,String> queryData(@UserId String id){
+    public Map<String,String> queryData(@UserId  String id){
         Map<String,String> map = new HashMap<>();
         map.put("id",id);
-        System.out.println("id = "+id);
         return map;
     }
 }
