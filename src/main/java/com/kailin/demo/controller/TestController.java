@@ -12,6 +12,15 @@ import java.util.Map;
 @RequestMapping("test")
 public class TestController {
 
+    /**
+     * 经测试，入参出现以下情况时，自定义拦截器将不会拦截：
+     * 1.Controller接口没有参数
+     * 2.ServletRequest类型的参数
+     * 3.被@RequestBody修饰的参数
+     * 4.类型为Map的参数
+     * @param id
+     * @return
+     */
     @GetMapping("queryData")
     public Map<String,String> queryData(@UserId  String id){
         Map<String,String> map = new HashMap<>();

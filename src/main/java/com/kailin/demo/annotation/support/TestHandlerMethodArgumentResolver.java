@@ -1,8 +1,6 @@
 package com.kailin.demo.annotation.support;
 
 import com.kailin.demo.annotation.UserId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +9,8 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
